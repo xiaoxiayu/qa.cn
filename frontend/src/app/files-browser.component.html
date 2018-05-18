@@ -1,0 +1,5 @@
+<div class="demo-tab-content">
+        <tree #treeComponent [tree]="tree" (menuItemSelected)="onMenuItemSelected($event)" (nodeSelected)="handleSelected($event)" (nodeCollapsed)="handleCollapsed($event)"
+          (nodeExpanded)="handleExpanded($event)" 
+          (nodeCreated)="handleCreated($event)"></tree>
+</div>

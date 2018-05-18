@@ -1,0 +1,18 @@
+.example-card {
+    max-width: 800px;
+  }
+
+  .gui-card {
+    max-width: 700px;
+  }
+  
+  
+
+  mat-card-header {
+    margin-bottom: 0.5cm;
+  }
+
+  mat-grid-tile {
+    background: lightblue;
+  }
+ 

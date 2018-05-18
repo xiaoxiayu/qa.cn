@@ -1,0 +1,57 @@
+<table datatable [dtOptions]="dtOptions" class="row-border hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Size</th>
+      <th>Date</th>
+      <th>Info</th>
+      <th>Tools</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>
+        <input [(ngModel)]="searchdata.name" type="text" placeholder="Search Name" />
+      </th>
+      <th>
+        <input [(ngModel)]="searchdata.type" type="text" placeholder="Search Type" />
+      </th>
+      <th>
+        <input [(ngModel)]="searchdata.size" type="text" placeholder="Search Size" />
+      </th>
+      <th>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker1" placeholder="From" [formControl]="date_from">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker2" placeholder="To" [formControl]="date_to">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+
+        </mat-form-field>
+      </th>
+      <th>
+        <input type="text" placeholder="Search Info" [(ngModel)]="searchdata.info" />
+      </th>
+      <th>
+        <button mat-raised-button (click)="simpleSearch()">Search</button>
+      </th>
+    </tr>
+  </tfoot>
+  <tbody>
+    <tr *ngFor="let fileinfo of fileinfos">
+      <td [innerHTML]=fileinfo.name></td>
+      <td>{{ fileinfo.type }}</td>
+      <td>{{ fileinfo.size }}</td>
+      <td>{{ fileinfo.date }}</td>
+      <td>{{ fileinfo.info }}</td>
+      <td [innerHTML]=fileinfo.tools></td>
+    </tr>
+    <tr *ngIf="fileinfos?.length == 0">
+      <td colspan="3" class="no-data-available">No data!</td>
+    </tr>
+  </tbody>
+</table>

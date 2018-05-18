@@ -1,0 +1,82 @@
+<mat-tab-group >
+
+    <mat-tab label="Console">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6" *ngFor="let fuzz of consoledata">
+                    <mat-card #temthis class="example-card" *ngIf="fuzz.show">
+                        <mat-card-header>
+                            <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                            <mat-card-title>{{fuzz.name}}</mat-card-title>
+                            <mat-card-subtitle>
+                                <table *ngIf="fuzz.detail && fuzz.start_time != ''" style="font-family: 'Trebuchet MS', 'Tahoma', 'Arial', 'Helvetica'">
+                                    <tr>
+                                        <td>
+                                            <b>Machine:</b>
+                                        </td>
+                                        <td>{{fuzz.fuzz_ip}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>StartTime:</b>
+                                        </td>
+                                        <td>{{fuzz.start_time}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>LastUpdateTime:</b>
+                                        </td>
+                                        <td>{{fuzz.last_update}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>ExecsPerSec:</b>
+                                        </td>
+                                        <td>{{fuzz.execs_per_sec}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>UniqueCrashes:</b>
+                                        </td>
+                                        <td>{{fuzz.unique_crashes}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <b>UniqueHangs:</b>
+                                        </td>
+                                        <td>{{fuzz.unique_hangs}}</td>
+                                    </tr>
+
+                                </table>
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-spinner [diameter]=25 *ngIf="fuzz.loading"></mat-spinner>
+                        <div *ngIf="fuzz.detail">
+                            <img mat-card-image *ngIf="fuzz.output_path != ''" src="{{fuzz.output_path}}/exec_speed.png" alt="Photo of a Shiba Inu">
+                            <img mat-card-image *ngIf="fuzz.output_path != ''" src="{{fuzz.output_path}}/high_freq.png" alt="Photo of a Shiba Inu">
+                            <img mat-card-image *ngIf="fuzz.output_path != ''" src="{{fuzz.output_path}}/low_freq.png" alt="Photo of a Shiba Inu">
+                        </div>
+                        <mat-card-content>
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <button mat-button (click)="showDetail(fuzz)">DETAIL</button>
+                            <button mat-button (click)="closeCard(fuzz)">CLOSE</button>
+                        </mat-card-actions>
+                    </mat-card>
+                    <mat-divider></mat-divider>
+                </div>
+
+            </div>
+        </div>
+
+    </mat-tab>
+
+    <mat-tab label="GUI">
+        <mat-grid-list cols="2" rowHeight="2:1">
+                <a href="javascript:void(0);" *ngFor="let data of guidatas" (click)="openLiveDialog(data.ip, data.name)"><mat-grid-tile>{{data.name}}</mat-grid-tile></a>
+                <!-- <a href="javascript:void(0);"><mat-grid-tile (click)="openLive()">2</mat-grid-tile></a> -->
+              </mat-grid-list>
+
+
+    </mat-tab>
+</mat-tab-group>

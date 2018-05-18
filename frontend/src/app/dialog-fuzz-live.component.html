@@ -1,0 +1,22 @@
+<div class="contain">
+    <div class="row">
+        <div class="col-12">
+            <p>{{name}}</p>
+        </div>
+        <div class="col-12">
+                <mat-spinner [diameter]=25 *ngIf="loading"></mat-spinner>
+            <!-- <video #videoElement ></video> -->
+
+            <div class="video-container">
+                <div>
+                    <video #videoElement  class="centeredVideo" controls autoplay>
+                        Your browser is too old which doesn't support HTML5 video.
+                    </video>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,80 @@
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-6 fill">
+            <div class="panel fill">
+                <div>
+
+                </div>
+                <div class="panel-body fill">
+                    <div class="fill" ace-editor [(text)]="text" [mode]="'javascript'" [theme]="'eclipse'" [options]="options" [readOnly]="false"
+                        [autoUpdateContent]="false" [durationBeforeCallback]="100" (textChanged)="onChange($event)" style="min-height: 600px; width:100%; overflow: auto;"></div>
+
+                    <button  *ngIf="!run" mat-raised-button (click)="setCode()" color="primary">
+                            <mat-icon >play_arrow</mat-icon>
+                            
+                            Windows</button>
+                            <mat-spinner *ngIf="run" [diameter]=25 color="warn" ></mat-spinner>
+
+                    
+                            
+                           
+                            
+                    <button mat-raised-button color="primary" disabled="disabled">
+                        Android
+                    </button>
+                    <button mat-raised-button color="primary" disabled="disabled">
+                        IOS
+                    </button>
+
+                </div>
+
+            </div>
+            <div class="text-center"></div>
+        </div>
+
+
+        <div class="col-6 fill">
+
+            <div class="panel panel-default fill">
+                <div class="panel-heading">
+                    <!-- <h3 class="panel-title">Output</h3> -->
+
+
+                </div>
+                <div class="panel-body fill">
+                    <div class="form-group">
+
+                        <button mat-icon-button color="primary">
+                            <mat-icon (click)="clearOutput()">clear</mat-icon>
+                        </button>
+
+                        <textarea class="form-control" rows="10" #respondtext></textarea>
+
+                    </div>
+
+                    <hr>
+                    <div class="panel panel-default fill">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Image:</h3>
+                        </div>
+
+                        <div class="panel-body fill">
+                            <p>Not Implemented</p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <mat-sidenav-container class="example-container" >
+    <mat-sidenav mode="side" opened>Sidenav content</mat-sidenav>
+    <mat-sidenav-content>Main content</mat-sidenav-content>
+  </mat-sidenav-container> -->

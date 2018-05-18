@@ -1,0 +1,74 @@
+<mat-tab-group >
+        <mat-tab label="Online">
+                <div class="container-fluid">
+
+                        <div class="row">
+                                <div class="col-6">
+                                        <div class="fill" ace-editor [(text)]="text" [mode]="'javascript'" [theme]="'eclipse'" [options]="options" [readOnly]="false"
+                                                [autoUpdateContent]="false" [durationBeforeCallback]="1000" (textChanged)="onChange($event)"
+                                                style="min-height: 600px; width:100%; overflow: auto;"></div>
+
+                                </div>
+                                <div class="col-6">
+                                        <div echarts [options]="chartOption" class="demo-chart"></div>
+                                </div>
+                        </div>
+                </div>
+        </mat-tab>
+        <mat-tab label="FromLog">
+                <div class="container-fluid">
+                        <div class="row">
+                                <div class="col-4">
+                                        <div class="container">
+                                                <div class="row">
+                                                        <div class="col-1">
+                                                                <a class="uploderinput" href="http://10.103.2.166:9090/QCFileServerRelease/log/chart_from_log_sample.log" matTooltip="Click to download log sample." matTooltipPosition="right">
+                                                                        <mat-icon class="uploderinput" >live_help</mat-icon>
+                                                                </a>
+                                                        </div>
+                                                        <div class="col-4">
+                                                                <input class="uploderinput" type="file" ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged($event)" multiple
+                                                                />
+                                                        </div>
+                                                </div>
+                                        </div>
+
+
+
+
+                                </div>
+                                <div class="col-7">
+                                        <table class="table">
+                                                <thead>
+                                                        <tr>
+                                                                <th width="50%">Name</th>
+                                                                <th>Size</th>
+                                                                <th>Action</th>
+                                                        </tr>
+                                                </thead>
+                                                <tbody>
+                                                        <tr *ngFor="let item of uploader.queue">
+                                                                <td>
+                                                                        <strong>{{ item?.file?.name }}</strong>
+                                                                </td>
+                                                                <td nowrap>{{ item?.file?.size/1024 | number:'.2' }} KB</td>
+                                                                <td nowrap>
+                                                                        <button class="actionButton" color="primary" (click)="doRemove(item)" color="warn" mat-button>Remove</button>
+                                                                </td>
+                                                        </tr>
+                                                </tbody>
+                                        </table>
+                                </div>
+
+                        </div>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <div echarts *ngFor="let logoption of logChartOptions" [options]="logoption.option" class="demo-chart">
+
+                </div>
+
+
+        </mat-tab>
+</mat-tab-group>

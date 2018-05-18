@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>{{data.name}}</h2>
+<div mat-dialog-content>
+  <p>What's the purpose of the test machine?</p>
+  <!-- <mat-form-field> -->
+    <!-- <textarea matInput [(ngModel)]="value"></textarea>              -->
+  <!-- </mat-form-field> -->
+
+  <form>
+
+        <textarea matInput [(ngModel)]="value" name="first"></textarea> 
+
+    <mat-form-field>
+    <mat-select [(value)]="selected">
+    <mat-option>None</mat-option>
+    <mat-option value="universal">universal</mat-option>
+    <mat-option value="special">special</mat-option>
+    </mat-select>
+    </mat-form-field>
+  
+  </form>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button (click)="onOK()" cdkFocusInitial>Ok</button>
+</div>

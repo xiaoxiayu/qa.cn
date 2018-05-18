@@ -1,0 +1,105 @@
+<h2 mat-dialog-title>Upload to: </h2>
+<div mat-dialog-content>
+    <p #uploadpath>{{upload_path}}</p>
+    <!-- <mat-form-field> -->
+    <!-- <textarea matInput [(ngModel)]="value"></textarea>              -->
+    <!-- </mat-form-field> -->
+    <!-- <div class="row"> -->
+
+
+    <input *ngIf="!file_selected" type="file" ng2FileSelect [uploader]="uploader" (change)="selectedFileOnChanged($event)" multiple
+    />
+    <br/>
+
+    <form *ngIf="file_selected" class="example-form">
+
+        <mat-form-field class="uploadinfo" [ngStyle]="{'background-color':infobackcolor === 'red' ? 'red' : 'white' }">
+            <input matInput #upload_info maxlength="256" placeholder="*INFO">
+            <mat-hint align="start">
+                <strong>The INFO field must be set for retrieval</strong>
+            </mat-hint>
+            <mat-hint align="end">{{upload_info.value.length}} / 256</mat-hint>
+        </mat-form-field>
+
+    </form>
+    <br/>
+
+
+    <table *ngIf="file_selected" class="table">
+        <thead>
+            <tr>
+                <th width="50%">Name</th>
+                <th>Size</th>
+                <th>Progress</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of uploader.queue">
+                <td>
+                    <strong>{{ item?.file?.name }}</strong>
+                </td>
+                <td nowrap>{{ item?.file?.size/1024 | number:'.2' }} KB</td>
+                <td>
+                    <div class="progress" style="margin-bottom: 0;">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span *ngIf="item.isSuccess">
+                        <i class="glyphicon glyphicon-ok">ok</i>
+                    </span>
+                    <span *ngIf="item.isCancel">
+                        <i class="glyphicon glyphicon-ban-circle">ss</i>
+                    </span>
+                    <span *ngIf="item.isError">
+                        <i class="glyphicon glyphicon-remove">Failed</i>
+                    </span>
+                    <!-- <i #state_name class="glyphicon glyphicon-remove"></i> -->
+                </td>
+                <td nowrap>
+                    <button class="actionButton" color="primary" (click)="doUpload(item)" color="primary" mat-button>Upload</button>
+                    <!-- <button class="actionButton" color="primary" (click)="item.cancel()" mat-mini-fab mat-button>Cancel</button> -->
+                    <button class="actionButton" color="primary" (click)="item.remove()" color="warn" mat-button>Remove</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div *ngIf="file_selected">
+        Queue progress:
+        <div class="progress" style="">
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+        </div>
+    </div>
+
+    <!-- </div> -->
+</div>
+<div mat-dialog-actions>
+    <div *ngIf="!file_selected">
+        <!-- <button mat-button (click)="onClose()">Close</button>
+        <button mat-button (click)="onOK()" cdkFocusInitial>Ok</button> -->
+        <span class="label label-default">If the file size is larger than 20M that should use the Upload tool, or if there are a large number of files to upload
+            also suggest use
+            <a href="http://10.103.2.166:9090/QCFileServerRelease/win64/HttpClient.exe">offline upload tool</a>.</span>
+
+    </div>
+    <div *ngIf="file_selected">
+        <button mat-raised-button (click)="doUploadAll()" color="primary" [disabled]="!uploader.getNotUploadedItems().length">
+            <span class="glyphicon glyphicon-upload"></span> UploadAll
+        </button>
+        <!-- <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+            <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+        </button> -->
+        <!-- <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+            <span class="glyphicon glyphicon-trash"></span> Remove all
+        </button> -->
+        <button mat-raised-button (click)="onReturn()" cdkFocusInitial>Return</button>
+        <!-- <button mat-raised-button (click)="onClose()" cdkFocusInitial>Close</button> -->
+    </div>
+    <mat-divider [inset]=true></mat-divider>
+
+
+</div>

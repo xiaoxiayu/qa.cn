@@ -1,0 +1,78 @@
+<!--The content below is only a placeholder and can be replaced.-->
+
+<mat-sidenav-container class="example-container" *ngIf="shouldRun">
+
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <mat-divider [inset]=true></mat-divider>
+        <button class="menuButton" color="primary" mat-mini-fab mat-button [matMenuTriggerFor]="ci">CI</button>
+        <mat-menu #ci="matMenu">
+          <button mat-menu-item class="nav-link" [routerLink]="['/ci', 0]">Fxcore</button>
+          <button mat-menu-item class="nav-link" [routerLink]="['/ci', 1]">SDK</button>
+          <button mat-menu-item class="nav-link" [routerLink]="['/ci', 2]">SET</button>
+          <button mat-menu-item class="nav-link" [routerLink]="['/ci', 3]">Phantom Reader Package</button>
+          <button mat-menu-item class="nav-link" [routerLink]="['/ci', 4]">Phantom Reader Test</button>
+        </mat-menu>
+        <mat-divider [inset]=true></mat-divider>
+      </li>
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <mat-divider [inset]=true></mat-divider>
+
+        <button class="menuButton" color="primary" mat-mini-fab mat-button [matMenuTriggerFor]="files">Files</button>
+        <mat-menu #files="matMenu">
+          <button mat-menu-item class="nav-link" [routerLink]="['/files-search']">Search</button>
+          <button mat-menu-item class="nav-link" [routerLink]="['/files-browser']">Browser</button>
+        </mat-menu>
+
+        <mat-divider [inset]=true></mat-divider>
+      </li>
+
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <mat-divider [inset]=true></mat-divider>
+        <button class="menuButton" color="primary" mat-mini-fab mat-button [matMenuTriggerFor]="test">Test</button>
+        <mat-menu #test="matMenu">
+          <button mat-menu-item [matMenuTriggerFor]="state">Status</button>
+          <button mat-menu-item class="nav-link" [routerLink]="['/test/fuzz']">Fuzz</button>
+        </mat-menu>
+        <mat-menu #state="matMenu">
+          <button mat-menu-item class="nav-link" [routerLink]="['test/state', 0]">
+            <span>Fxcore</span>
+          </button>
+          <button mat-menu-item class="nav-link" [routerLink]="['test/state', 1]">
+            <span>SET</span>
+          </button>
+        </mat-menu>
+        <mat-divider [inset]=true></mat-divider>
+      </li>
+
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <mat-divider [inset]=true></mat-divider>
+        <button  class="menuButton" color="primary" mat-mini-fab class="nav-link menuButton" [routerLink]="['/chart']">
+          <span>Chart</span>
+        </button>
+
+        <mat-divider [inset]=true></mat-divider>
+      </li>
+
+      <li class="nav-item" [routerLinkActive]="['active']">
+        <mat-divider [inset]=true></mat-divider>
+        <button class="menuButton" color="primary" mat-mini-fab class="nav-link menuButton" [routerLink]="['/js']">
+          <span>JS</span>
+        </button>
+
+        <mat-divider [inset]=true></mat-divider>
+      </li>
+    </ul>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button (click)="sidenav.toggle()" class="demo-header__toggle"></button>FoxitQA</mat-toolbar>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+
+

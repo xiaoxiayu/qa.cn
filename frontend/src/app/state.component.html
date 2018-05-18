@@ -1,0 +1,472 @@
+<mat-tab-group [selectedIndex]=selectedIndex (selectedTabChange)="tabChanged($event)">
+    <mat-tab label="Fxcore">
+        <mat-accordion>
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Machine
+                            <mat-spinner [diameter]=25 *ngIf="fxcore_machine_loading"></mat-spinner>
+                        </mat-panel-title>
+                        <mat-panel-description>
+
+                        </mat-panel-description>
+                        <mat-divider></mat-divider>
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFxcoreMachineFilter($event.target.value)" placeholder="Filter">
+                        </mat-form-field>
+                    </mat-expansion-panel-header>
+
+                    <div class="example-container mat-elevation-z8">
+                        <mat-table #table [dataSource]="fxcore_machine_dataSource">
+
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="position">
+                                <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span matTooltip="{{element.updatetime}}"> {{element.name}} </span>
+                                </mat-cell>
+                            </ng-container>
+
+                            <!-- Test Column -->
+                            <ng-container matColumnDef="test">
+                                <mat-header-cell *matHeaderCellDef> Test </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span matTooltip="{{element.updatetime}}"> {{element.test}} </span>
+                                </mat-cell>
+                            </ng-container>
+
+                            <!-- Info Column -->
+                            <ng-container matColumnDef="info">
+                                <mat-header-cell *matHeaderCellDef> Info </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+
+                                    <mat-list matTooltip="{{element.info}}" dense>
+                                        <mat-list-item class="fxcore-machine-info" *ngFor="let envinfo of element.envinfos"> {{envinfo}} </mat-list-item>
+                                    </mat-list>
+
+                                </mat-cell>
+                            </ng-container>
+
+                            <!-- Status Column -->
+                            <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef> Task </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span matTooltip="{{element.updatetime}}"> {{element.status}} </span>
+                                </mat-cell>
+                            </ng-container>
+
+                            <!-- Message Column -->
+                            <ng-container matColumnDef="message">
+                                <mat-header-cell *matHeaderCellDef> Label </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+
+                                    <!-- <textarea matInput (click)="openDialog(element.name, element.message, element.purpose)" [readonly]=true placeholder="Click to edit">{{element.message}}</textarea> -->
+                                    <mat-form-field class="demo-chip-list">
+                                        <mat-chip-list #chipList>
+                                            <mat-chip *ngFor="let label of element.labels" [selectable]="selectable" [removable]="removable" (remove)="remove_fxcore_label(element.position, element.name, label)">
+                                                {{label}}
+                                                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                            </mat-chip>
+                                            <input placeholder="Edit label..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                                                (matChipInputTokenEnd)="add_fxcore_label(element.position, element.name, $event)"
+                                            />
+                                        </mat-chip-list>
+                                    </mat-form-field>
+                                </mat-cell>
+
+                            </ng-container>
+
+
+                            <mat-header-row *matHeaderRowDef="fxcore_machine_displayedColumns"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: fxcore_machine_displayedColumns;"></mat-row>
+                        </mat-table>
+
+                        <mat-paginator #fxcore_machine_paginator [pageSize]="20" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true">
+                        </mat-paginator>
+                    </div>
+
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Running
+                        <mat-spinner [diameter]=25 *ngIf="fxcore_state_loading"></mat-spinner>
+                    </mat-panel-title>
+                    <mat-panel-description>
+                    </mat-panel-description>
+                    <mat-divider></mat-divider>
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                    </mat-form-field>
+                </mat-expansion-panel-header>
+
+                <div class="example-container mat-elevation-z8">
+                    <mat-table #table [dataSource]="dataSource">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span matTooltip="{{element.createtime}}"> {{element.name}} </span>
+                            </mat-cell>
+
+                        </ng-container>
+
+                        <!-- Creator Column -->
+                        <ng-container matColumnDef="creator">
+                            <mat-header-cell *matHeaderCellDef> Creator </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <a [href]="element.create_url"> {{element.creator}} </a>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Progress Column -->
+                        <ng-container matColumnDef="progress">
+                            <mat-header-cell *matHeaderCellDef> progress </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+
+                                <mat-progress-bar [color]="element.color" *ngIf="element.status == 'Running'" mode="determinate" value="{{element.progress}}"></mat-progress-bar>
+                                <mat-progress-bar [color]="element.color" *ngIf="element.status != 'Running' && element.status != 'Initialization'" mode="determinate"
+                                    value="{{element.progress}}"></mat-progress-bar>
+                                <mat-progress-bar [color]="element.color" *ngIf="element.status == 'Initialization'" mode="query" value="{{element.progress}}"></mat-progress-bar>
+
+                                <mat-divider></mat-divider>
+
+                                <small style="float:left;">{{element.progress}}%</small>
+
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span [matTooltip]="element.status_info"> {{element.status}} </span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Tools Column -->
+                        <ng-container matColumnDef="tools">
+                            <mat-header-cell *matHeaderCellDef> Tools </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button *ngIf="(element.executor != '' && element.executor_pid != '') && (element.status == 'Running' || element.status == 'Initialization')" mat-icon-button
+                                    color="warn" (click)="stopRunning(element.executor, element.executor_pid)">
+                                    <mat-icon aria-label="">highlight_off</mat-icon>
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                    </mat-table>
+
+                    <mat-paginator #paginator [pageSize]="20" [pageSizeOptions]="[5, 10, 20, 30]" [showFirstLastButtons]="true">
+                    </mat-paginator>
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+
+    </mat-tab>
+    <mat-tab label="SET">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Machine
+                    </mat-panel-title>
+                    <mat-panel-description>
+
+                    </mat-panel-description>
+                    <mat-divider></mat-divider>
+                    <mat-form-field>
+                        <input matInput (keyup)="applySETMachineFilter($event.target.value)" placeholder="Filter">
+                    </mat-form-field>
+                </mat-expansion-panel-header>
+
+                <div class="example-container mat-elevation-z8">
+                    <mat-table #table [dataSource]="set_machine_dataSource">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span matTooltip="{{element.updatetime}}"> {{element.name}} </span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Test Column -->
+                        <ng-container matColumnDef="test">
+                            <mat-header-cell *matHeaderCellDef> Test </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span matTooltip="{{element.updatetime}}"> {{element.test}} </span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Info Column -->
+                        <ng-container matColumnDef="info">
+                            <mat-header-cell *matHeaderCellDef> Info </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+
+                                <mat-list matTooltip="{{element.info}}" dense>
+                                    <mat-list-item class="fxcore-machine-info" *ngFor="let envinfo of element.envinfos"> {{envinfo}} </mat-list-item>
+                                    <mat-list-item class="fxcore-machine-info" > {{element.uiinfo}} </mat-list-item>
+                                </mat-list>
+
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span matTooltip="{{element.updatetime}}"> {{element.status}} </span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- UI Column -->
+                        <ng-container matColumnDef="ui">
+                            <mat-header-cell *matHeaderCellDef> UI </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span *ngIf="element.uilink_status == 'autolink'"> <a href="javascript:void(0);" class="material-icons md-10" style="color:blue" matTooltip="Resolution:{{element.screen_resolution}}. Click to break from UI server." (click)="changeUI(element, 'unlink', '')">desktop_windows</a> |<a href="http://10.103.129.79:8000?fxqa=true&host={{element.name}}&title={{element.name}}" target="_blank"><i class="material-icons md-10">open_in_browser</i></a></span>
+                                <span *ngIf="element.uilink_status == 'userlink'"> 
+                                        <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button> -->
+                                        <a  [matMenuTriggerFor]="menu" href="javascript:void(0);"  class="material-icons md-5" style="color:yellow" matTooltip="Auto link to UI server." >desktop_windows</a>|<a href="http://10.103.129.79:8000?fxqa=true&host={{element.name}}&title={{element.name}}" target="_blank"><i class="material-icons md-10">open_in_browser</i></a>
+                                        <mat-menu #menu="matMenu">
+                                                <i class="material-icons md-36" matTooltip="Resolution Select.">view_comfy</i>
+                                                <mat-divider></mat-divider>
+                                          <button mat-menu-item (click)="changeUI(element, 'autolink', '800x600')">800x600</button>
+                                          <button mat-menu-item (click)="changeUI(element, 'autolink', '1024x768')">1024x768</button>
+                                          <button mat-menu-item (click)="changeUI(element, 'autolink', '1600x900')">1600x900</button>
+                                          <button mat-menu-item (click)="changeUI(element, 'autolink', '1920x1080')">1920x1080</button>
+                                        </mat-menu>
+                                    
+                                </span>
+                                <span *ngIf="element.uilink_status == 'unlink'"> 
+                                    <a [matMenuTriggerFor]="menu"  href="javascript:void(0);"  class="material-icons md-10" style="color:red" matTooltip="Auto link to UI server." >desktop_windows</a> |<a href="http://10.103.129.79:8000?fxqa=true&host={{element.name}}&title={{element.name}}" target="_blank"><i class="material-icons md-10">open_in_browser</i></a>
+                                    <!-- <a  [matMenuTriggerFor]="menu" href="javascript:void(0);"  class="material-icons md-5" style="color:yellow" matTooltip="Auto link to UI server." >desktop_windows</a>|<a href="http://10.103.129.79:8000?fxqa=true&host={{element.name}}&title={{element.name}}" target="_blank"><i class="material-icons md-10">open_in_browser</i></a> -->
+                                        <mat-menu #menu="matMenu">
+                                                <i class="material-icons md-36" matTooltip="Resolution Select.">view_comfy</i>
+                                                <mat-divider></mat-divider>
+                                                <button mat-menu-item (click)="changeUI(element, 'autolink', '800x600')">800x600</button>
+                                                <button mat-menu-item (click)="changeUI(element, 'autolink', '1024x768')">1024x768</button>
+                                                <button mat-menu-item (click)="changeUI(element, 'autolink', '1600x900')">1600x900</button>
+                                                <button mat-menu-item (click)="changeUI(element, 'autolink', '1920x1080')">1920x1080</button>
+                                        </mat-menu>
+                                </span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Message Column -->
+                        <ng-container matColumnDef="message">
+                            <mat-header-cell *matHeaderCellDef> Message </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+
+
+                                <textarea matInput (click)="openDialog(element.name, element.message, element.purpose)" [readonly]=true placeholder="Click to edit">{{element.message}}</textarea>
+
+                            </mat-cell>
+
+                        </ng-container>
+
+
+                        <mat-header-row *matHeaderRowDef="set_machine_displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: set_machine_displayedColumns;"></mat-row>
+                    </mat-table>
+
+                    <mat-paginator #set_machine_paginator [pageSize]="20" [pageSizeOptions]="[5, 10, 20, 30]" [showFirstLastButtons]="true">
+                    </mat-paginator>
+                </div>
+
+            </mat-expansion-panel>
+
+        </mat-accordion>
+
+        <!-- SET Test Project Start -->
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Running
+                    </mat-panel-title>
+                    <mat-panel-description>
+
+                    </mat-panel-description>
+                    <mat-divider></mat-divider>
+                    <mat-form-field>
+                        <input matInput (keyup)="applySETRunningFilter($event.target.value)" placeholder="Filter">
+                    </mat-form-field>
+                </mat-expansion-panel-header>
+
+                <div class="example-container mat-elevation-z8">
+                    <mat-table #table [dataSource]="set_running_dataSource">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span matTooltip="{{element.createtime}}"> {{element.name}} </span>
+                            </mat-cell>
+
+                        </ng-container>
+
+                        <!-- Creator Column -->
+                        <ng-container matColumnDef="creator">
+                            <mat-header-cell *matHeaderCellDef> Creator </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <a [href]="element.create_url"> {{element.creator}} </a>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Progress Column -->
+                        <ng-container matColumnDef="progress">
+                            <mat-header-cell *matHeaderCellDef> progress </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+
+                                <mat-progress-bar [color]="element.color" *ngIf="element.status == 'Running'" mode="determinate" [value]="element.progress"></mat-progress-bar>
+                                <mat-progress-bar [color]="element.color" *ngIf="element.status != 'Running' && element.status != 'Initialization'" mode="indeterminate"
+                                    [value]="element.progress"></mat-progress-bar>
+                                <mat-progress-bar [color]="element.color" *ngIf="element.status == 'Initialization'" mode="query" [value]="element.progress"></mat-progress-bar>
+
+                                <mat-divider></mat-divider>
+
+                                <small style="float:left;">{{element.progress}}%</small>
+
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span [matTooltip]="element.status_info"> {{element.status}} </span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Tools Column -->
+                        <ng-container matColumnDef="tools">
+                            <mat-header-cell *matHeaderCellDef> Tools </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button *ngIf="element.creator != 'unknown'" mat-icon-button
+                                    color="warn" (click)="stopSetRunning(element.creator, element.name)">
+                                    <mat-icon aria-label="">highlight_off</mat-icon>
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="set_running_displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: set_running_displayedColumns;"></mat-row>
+                    </mat-table>
+
+                    <mat-paginator #set_running_paginator [pageSize]="20" [pageSizeOptions]="[5, 10, 20, 30]" [showFirstLastButtons]="true">
+                    </mat-paginator>
+                </div>
+
+            </mat-expansion-panel>
+
+        </mat-accordion>
+        <!-- SET Test Project End -->
+
+        <!-- SET Test Summary Start -->
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Summary
+                    </mat-panel-title>
+                    <mat-panel-description>
+
+                    </mat-panel-description>
+                    <mat-divider></mat-divider>
+                    <mat-form-field>
+                        <input matInput (keyup)="applySETTestSummaryFilter($event.target.value)" placeholder="Filter">
+                    </mat-form-field>
+                </mat-expansion-panel-header>
+
+                <div class="example-container mat-elevation-z8">
+                    <mat-table #table [dataSource]="set_testsummary_dataSource">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="position">
+                            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="name">
+                            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span matTooltip="{{element.updatetime}}"> {{element.name}} </span>
+                            </mat-cell>
+
+                        </ng-container>
+
+                        <!-- TestIndex Column -->
+                        <ng-container matColumnDef="testindex">
+                            <mat-header-cell *matHeaderCellDef> TestIndex </mat-header-cell>
+                            <mat-cell *matCellDef="let element">{{element.testindex}}</mat-cell>
+                        </ng-container>
+
+                        <!-- CI Column -->
+                        <ng-container matColumnDef="ci">
+                            <mat-header-cell *matHeaderCellDef> CI </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <a [href]="element.ci">{{element.ci}}</a>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Status Column -->
+                        <ng-container matColumnDef="status">
+                            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span [matTooltip]="element.status_info" [innerHTML]=element.status> </span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <!-- Result Column -->
+                        <ng-container matColumnDef="result">
+                            <mat-header-cell *matHeaderCellDef> Result </mat-header-cell>
+                            <mat-cell *matCellDef="let element" [innerHTML]="element.result"> </mat-cell>
+                        </ng-container>
+
+                        <mat-header-row *matHeaderRowDef="set_testsummary_displayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: set_testsummary_displayedColumns;"></mat-row>
+                    </mat-table>
+
+                    <mat-paginator #set_testsummary_paginator [pageSize]="20" [pageSizeOptions]="[5, 10, 20, 30]" [showFirstLastButtons]="true">
+                    </mat-paginator>
+                </div>
+
+            </mat-expansion-panel>
+
+        </mat-accordion>
+        <!-- SET Test Summary End -->
+    </mat-tab>
+</mat-tab-group>
