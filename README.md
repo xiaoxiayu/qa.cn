@@ -26,3 +26,12 @@
 > * 后端： GIN
 > * 前端： Angular
 > * [其它](https://github.com/xiaoxiayu/foxitqa.cn/blob/master/frontend/package.json)
+
+## 部分效果图
+> * chart: ![](./screenshot/chart.png)
+> * upload: ![](./screenshot/files-browser-upload.png)
+> * search: ![](./screenshot/files-search.png)
+> * fuzz: ![](./screenshot/fuzz.png)
+> * test state: ![](./screenshot/test_state_0.png)
+> * test state: ![](./screenshot/test_state_1.png)
+
