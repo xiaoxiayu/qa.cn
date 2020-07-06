@@ -17,7 +17,7 @@ import (
 
 	"encoding/base64"
 
-	fxqacommon "foxitsoftware.cn/quality_control/foxitqa.cn/common"
+	fxqacommon "xxsoftware.cn/quality_control/xxqa.cn/common"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	cmap "github.com/streamrail/concurrent-map"
@@ -44,7 +44,7 @@ type stateCacheData struct {
 
 func (this *TestState) State(c *gin.Context) {
 	c.HTML(http.StatusOK, "state.html", gin.H{
-		"title":           "Foxit QA:state of the test run",
+		"title":           "xx QA:state of the test run",
 		"status_trs_html": "NODATA",
 		"fxcore_host":     "ws://" + c.Request.Host + "/test/state/_data",
 	})

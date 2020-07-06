@@ -1,4 +1,4 @@
-## Foxit QA automated testing home page
+## xx QA automated testing home page
 
 
 # 功能模块：
@@ -25,7 +25,7 @@
 ## 实现及依赖：
 > * 后端： GIN
 > * 前端： Angular
-> * [其它](https://github.com/xiaoxiayu/foxitqa.cn/blob/master/frontend/package.json)
+> * [其它](https://github.com/xiaoxiayu/xxqa.cn/blob/master/frontend/package.json)
 
 ## 部分效果图
 > * chart: ![](./screenshot/chart.png)

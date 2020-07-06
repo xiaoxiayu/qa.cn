@@ -13,7 +13,7 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	fxqacommon "foxitsoftware.cn/quality_control/foxitqa.cn/common"
+	fxqacommon "xxsoftware.cn/quality_control/xxqa.cn/common"
 	"github.com/gin-gonic/gin"
 )
 
@@ -494,7 +494,7 @@ func ReGenerateData(cidata_map []CIMapData, webdatamap, predefine_data map[strin
 
 func (this *CIBuilderHander) Index(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{
-		"title": "Foxit Jenkins",
+		"title": "xx Jenkins",
 	})
 	return
 
@@ -502,7 +502,7 @@ func (this *CIBuilderHander) Index(c *gin.Context) {
 	if e != nil {
 		fmt.Printf("File error: %v\n", e)
 		c.HTML(http.StatusOK, "build.html", gin.H{
-			"title":            "Foxit QA:Build",
+			"title":            "xx QA:Build",
 			"term_tab_li":      template.HTML(`<div>Configure File Error.</div>`),
 			"term_tab_content": template.HTML(`<div>Configure File Error.</div>`),
 			"WizardJs":         template.JS(``),
@@ -513,7 +513,7 @@ func (this *CIBuilderHander) Index(c *gin.Context) {
 	err := json.Unmarshal(file, &this.buildConfig)
 	if err != nil {
 		c.HTML(http.StatusOK, "build.html", gin.H{
-			"title":            "Foxit QA:Build",
+			"title":            "xx QA:Build",
 			"term_tab_li":      template.HTML(`<div>Configure Data Error.</div>`),
 			"term_tab_content": template.HTML(fmt.Sprintf(`<div>%s</div>`, err.Error())),
 			"WizardJs":         template.JS(``),
@@ -596,7 +596,7 @@ func (this *CIBuilderHander) Index(c *gin.Context) {
 	pagecontent = fmt.Sprintf(term_tab, product_content_list...)
 
 	c.HTML(http.StatusOK, "build.html", gin.H{
-		"title":            "Foxit QA:Build",
+		"title":            "xx QA:Build",
 		"term_tab_li":      template.HTML(term_lis),
 		"term_tab_content": template.HTML(pagecontent),
 		"WizardJs":         template.JS(wizardform_js),

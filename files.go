@@ -9,8 +9,8 @@ import (
 	"net/http"
 	//	"time"
 
-	"foxitsoftware.cn/quality_control/foxitqa.cn/database"
-	"foxitsoftware.cn/quality_control/foxitqa.cn/file_client"
+	"xxsoftware.cn/quality_control/xxqa.cn/database"
+	"xxsoftware.cn/quality_control/xxqa.cn/file_client"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,7 +31,7 @@ func (this *FilesHander) Files(c *gin.Context) {
 	this.files_count = files_count
 	//	db.CountTestFiles()
 	c.HTML(http.StatusOK, "files.html", gin.H{
-		"title": "Foxit QA:testfiles",
+		"title": "xx QA:testfiles",
 	})
 }
 

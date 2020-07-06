@@ -8,7 +8,7 @@ import { PageNotFoundComponent } from './page-notfound.component';
 import { FuzzComponent } from './fuzz.component';
 import { FilesBrowserComponent } from './files-browser.component';
 import { ChartsComponent } from './charts.component';
-import { FoxitJSComponent } from './foxitjs.component';
+import { xxJSComponent } from './xxjs.component';
  
 const routes: Routes = [
  // { path: '', redirectTo: '/ci', pathMatch: 'full' },
@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'test/state/:id',  component: StateComponent },
   { path: 'test/fuzz',  component: FuzzComponent },
   { path: 'chart',  component: ChartsComponent },
-  { path: 'js',  component: FoxitJSComponent },
+  { path: 'js',  component: xxJSComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
  

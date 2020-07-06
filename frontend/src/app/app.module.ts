@@ -16,7 +16,7 @@ import { DialogEditMachine } from './dialog-edit-machine.component';
 import { DialogUploadFiles } from './dialog-uploadfiles.component';
 import { DialogFuzzLive } from './dialog-fuzz-live.component';
 import { ChartsComponent } from './charts.component';
-import { FoxitJSComponent } from './foxitjs.component';
+import { xxJSComponent } from './xxjs.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -81,7 +81,7 @@ import { PageNotFoundComponent } from './page-notfound.component';
     FilesBrowserComponent,
     FuzzComponent,
     ChartsComponent,
-    FoxitJSComponent
+    xxJSComponent
   ],
   imports: [
     BrowserModule,

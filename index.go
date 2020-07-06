@@ -11,5 +11,5 @@ import (
 func Index(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", gin.H{})
 	return
-	//	c.String(http.StatusOK, "Foxit QA WebSite")
+	//	c.String(http.StatusOK, "xx QA WebSite")
 }

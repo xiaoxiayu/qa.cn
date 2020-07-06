@@ -7,13 +7,13 @@ import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http'
 
 
 @Component({
-    selector: 'app-foxitjs',
-    templateUrl: './foxitjs.component.html',
-    styleUrls: ['./foxitjs.component.css']
+    selector: 'app-xxjs',
+    templateUrl: './xxjs.component.html',
+    styleUrls: ['./xxjs.component.css']
 })
 
 
-export class FoxitJSComponent implements OnInit {
+export class xxJSComponent implements OnInit {
     text: string = "";
     win_ip: string = '10.203.13.3:9091';
     getlog_obj: any;
